@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playlist Tracks</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <nav>
+        <ul>
+            <div class="img"> 
+            <li><img class="nav-icon" src="https://i.imgur.com/gt9KmZP.jpeg"></li>
+            </div>
+            <div class="text">
+            <li><h2 class="nav-heading">Wxlfify</h2></li>
+            </div>
+            <div class="text" id="nav-text">
+            <li><a href="/home">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/playlists">Playlists</a></li>
+            </div>
+        </ul>
+    </nav>
+
+<h1>User Profile</h1>
+    {% if profile %}
+    <div class="user-profile">
+        <img src="{{ profile['images'][0]['url'] }}" alt="Profile Picture">
+        <h1> 
+            <a href="{{ profile['external_urls']['spotify'] }}" target="_blank">
+                {{ profile['display_name'] }}
+            </a>
+        </h1>
+    </div>
+{% else %}
+    <p>User profile data not available.</p>
+{% endif %}
+<div class="profile-data">
+    <h1>Top Songs</h1>
+    <ul id="top-songs">
+        {% for track in tracks %}
+            <li>{{ track.name }} by {{ track.artists }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+</body>
+</html>
