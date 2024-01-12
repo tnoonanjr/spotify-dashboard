@@ -8,11 +8,11 @@ from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
-app.secret_key = 'Zm9yYmlkZGVu'
+app.secret_key = '************'
 
 # constants
-CLIENT_ID = '29a84997367f40e3850acce0eb60639e'
-CLIENT_SECRET = '80974e83ec714e47a078908938969769'
+CLIENT_ID = '****************************'
+CLIENT_SECRET = '*******************************'
 REDIRECT_URI = 'http://localhost:5000/callback'
 
 AUTH_URL = 'https://accounts.spotify.com/authorize'
