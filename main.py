@@ -1,150 +1,116 @@
-import requests
-import urllib.parse
-
-from flask import Flask, redirect, request, jsonify, session, render_template
-from flask_cors import CORS
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
+from flask import Flask, render_template, redirect, jsonify, session, request
 from datetime import datetime
+from constants import CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, SCOPE, APP_SECRET
+import json
 
+app = Flask(__name__, static_url_path='/static', static_folder='static')
+app.secret_key = APP_SECRET
 
-app = Flask(__name__)
-CORS(app)
-app.secret_key = '************'
+sp_oauth = SpotifyOAuth(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri=REDIRECT_URI, scope=SCOPE)
 
-# constants
-CLIENT_ID = '****************************'
-CLIENT_SECRET = '*******************************'
-REDIRECT_URI = 'http://localhost:5000/callback'
+# method class object to make app routes readable 
+class WxlfifyMethods:
+    @staticmethod  
+    def _refresh():
+        if sp_oauth.get_cached_token():
+            token_info = sp_oauth.get_cached_token()
+            expires_at = token_info['expires_at']
 
-AUTH_URL = 'https://accounts.spotify.com/authorize'
-TOKEN_URL = 'https://accounts.spotify.com/api/token'
-API_BASE_URL = 'https://api.spotify.com/v1/'
+            if expires_at - datetime.now().timestamp() < 300:
+                sp_oauth.refresh_access_token(token_info['refresh_token'])
 
-# login/backend endpoints
+    @staticmethod
+    def get_top_tracks(time_range, limit=10):
+        ''' allows us to retrieve top tracks from Spotify '''
+        WxlfifyMethods._refresh()
+        sp = spotipy.Spotify(auth_manager=sp_oauth) 
+
+        if sp_oauth.get_cached_token():
+            token_info = sp_oauth.get_cached_token()
+            expires_at = token_info['expires_at']
+            
+            if expires_at - datetime.now().timestamp() < 300:
+                sp_oauth.refresh_access_token(token_info['refresh_token'])
+        
+        top_tracks = sp.current_user_top_tracks(limit=limit, time_range=time_range)
+    
+        tracks_data = []
+        for track in top_tracks['items']:
+            album_info = sp.album(track['album']['id'])
+            tracks_data.append({
+                'name': track['name'],
+                'artists': ', '.join([artist['name'] for artist in track['artists']]),
+                'album_image': album_info['images'][0]['url'] if album_info.get('images') else None
+            })
+        
+        return tracks_data
+
+# backend endpoints
 @app.route("/")
 def index():
+    ''' default endpoint '''
     return render_template('home.html')
 
 @app.route("/login")
 def login():
-    scope = "user-read-private user-read-email user-top-read"
-
-    parameters = { 
-        'client_id': CLIENT_ID,
-        'response_type': 'code',
-        'scope': scope,
-        'redirect_uri': REDIRECT_URI,
-        'show_dialog': True # testing
-    } 
-
-    login_auth_url = f"{AUTH_URL}?{urllib.parse.urlencode(parameters)}"
-
-    return redirect(login_auth_url)
-
+    ''' login endpoint '''
+    return redirect(sp_oauth.get_authorize_url())
 
 @app.route("/callback")
 def callback():
-    if 'error' in request.args:
-        return jsonify({'error': requests.args('error')})
-    
-    if 'code' in request.args:
-        req_body = {
-            'code': request.args['code'],
-            'grant_type': 'authorization_code', 
-            'redirect_uri': REDIRECT_URI,
-            'client_id': CLIENT_ID,
-            'client_secret': CLIENT_SECRET
-        }
+    ''' callback endpoint '''
+    token_info = sp_oauth.get_access_token(request.args['code'])
+    session['token_info'] = token_info
 
-    response = requests.post(TOKEN_URL, data=req_body)
-    token_info = response.json()
+    return redirect("/home")
 
-    session['access_token'] = token_info['access_token'] 
-    session['refresh_token'] = token_info['refresh_token']
-    session['expires_at'] = datetime.now().timestamp() + token_info['expires_in']
-
-    return redirect("/playlists")
-
-@app.route("/refresh-token")
-def refresh_token():
-    if 'refresh_token' not in session:
-        return redirect("/login")
-    
-    if datetime.now().timestamp() > session['expires_at']:
-        req_body = {
-            'grant_type':'refresh_token',
-            'client_id': CLIENT_ID,
-            'client_secret': CLIENT_SECRET,
-            'refresh_token': session['refresh_token'],
-        }
-        
-        response = requests.post(TOKEN_URL, data=req_body)
-        new_token_info = response.json()
-
-        session['access_token'] = new_token_info['access_token']
-        session['expires_at'] = datetime.now().timestamp() + new_token_info['expires_in']
-
-    return redirect("/playlists")
-
-#endpoints
-@app.route("/home")
+# web page endpoints 
+@app.route('/home')
 def home():
+    ''' main page '''
     return render_template('home.html')
 
 @app.route("/profile")
-def profile(): 
-    if 'access_token' not in session:
-        return redirect("/login")
-    
-    if datetime.now().timestamp() > session['expires_at']:
-        return redirect("/refresh-token") 
-          
-    headers = {'Authorization': f"Bearer {session['access_token']}"} 
+def profile():
+    ''' profile page showing most played tracks '''
+    sp = spotipy.Spotify(auth_manager=sp_oauth)         # initialize class object     
 
-    response = requests.get("https://api.spotify.com/v1/me", headers=headers)
-    profile = response.json()
+    if sp_oauth.get_cached_token():
+        token_info = sp_oauth.get_cached_token()
+        expires_at = token_info['expires_at']
+
+        if expires_at - datetime.now().timestamp() < 300:
+            sp_oauth.refresh_access_token(token_info['refresh_token'])
+
     
-    return render_template('profile.html', profile=profile)
+    # Fetch top tracks for different time frames
+    short_term_tracks = WxlfifyMethods.get_top_tracks(time_range='short_term')
+    medium_term_tracks = WxlfifyMethods.get_top_tracks(time_range='medium_term')
+    long_term_tracks = WxlfifyMethods.get_top_tracks(time_range='long_term')
+
+    profile_data = sp.current_user()
+
+    return render_template("profile.html", short_term_tracks=short_term_tracks, medium_term_tracks=medium_term_tracks, long_term_tracks=long_term_tracks, profile=profile_data)
 
 @app.route("/playlists")
 def get_playlists():
-    if 'access_token' not in session:
-        return redirect("/login")
+    ''' display all playlists on a user's profile '''
+    sp = spotipy.Spotify(auth_manager=sp_oauth)
+    WxlfifyMethods._refresh()
     
-    if datetime.now().timestamp() > session['expires_at']:
-        return redirect("/refresh-token") 
-    
-    headers = {'Authorization': f"Bearer {session['access_token']}"}
-
-    response = requests.get(f"{API_BASE_URL}me/playlists", headers=headers)
-    playlists = response.json() 
-
-    return render_template('playlists.html', playlists=playlists)
+    playlists = sp.current_user_playlists()
+    jsonData = json.dumps(playlists)    # changed to json 
+    print(jsonData)
+    return render_template('index.html', playlists=playlists, jsonData=jsonData)  # changed to index
 
 @app.route("/playlist/<playlist_id>/tracks")
-def get_playlist_tracks(playlist_id):
-    if 'access_token' not in session:
-        return redirect("/login")
-    
-    if datetime.now().timestamp() > session['expires_at']:
-        return redirect("/refresh-token") 
-    
-    headers = {'Authorization': f"Bearer {session['access_token']}"}
+def tracks(playlist_id):
+    ''' list of tracks in a playlist '''
+    sp = spotipy.Spotify(auth_manager=sp_oauth)
+    tracks = sp.playlist_tracks(playlist_id)
+    return render_template('tracks.html', tracks=tracks)
 
-    offset = 0  # Initialize the offset to 0
-    all_tracks = []  # List to store all tracks
-    while True: 
-        response = requests.get(f"{API_BASE_URL}playlists/{playlist_id}/tracks", headers=headers, params={'limit': 50, 'offset': offset})
-        tracks = response.json()
-
-        if 'items' not in tracks or len(tracks['items']) == 0:
-            # No more tracks to retrieve
-            break
-        all_tracks.extend(tracks['items'])
-        
-        # Increment the offset for the next iteration
-        offset += 50
-    
-    return render_template("tracks.html", tracks={'items': all_tracks})
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
