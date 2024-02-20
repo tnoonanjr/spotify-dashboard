@@ -3,6 +3,10 @@ body {
     color: #c3a3cc;
     padding-top: 72px;
 }
+
+
+
+/* nav bar */
 .nav-icon {
     width: 50px;
     height: 50px;
@@ -52,7 +56,10 @@ nav ul li a {
     margin-right: 10px;
 }
 
-/* for playlists.html */
+
+
+
+/* playlists.html */
 .playlist-cover {
     height: 130px !important;
     width: 130px !important;
@@ -60,7 +67,7 @@ nav ul li a {
 
 .top-line {
     background-color: rgba(0,0,0,.6);
-    padding: 10px 0 0.1px 50px;
+    padding: 10px 0 0.1px 20px;
 }
 
 .container {
@@ -75,44 +82,63 @@ nav ul li a {
     width: 200px;
     text-align: center;
     list-style: none; 
-} 
-
-.playlist-info {
     padding-bottom: 20px;
+    white-space: normal; /* Allow wrap */
+    overflow: hidden; /* Hide overflow with no white space */
+    text-overflow: ellipsis; /* Display an ellipsis for overflowed content */
 }
-
 .playlist-name {
     color: #551A8B;
 }
 
-/* for profile .html */
+
+
+/* profile .html */
 .user-profile {
     display: flex;
     align-items: center;
     margin-left: 300px;
 }
 
-.profile-data {
-    margin: 10px 0;
-    display: inline-block;
-    text-align: left;
-    
-    padding: 5px 10px;
-    border-radius: 5px;
-}
-#top-songs {
-    color: white;
-    font-weight: 600;
-}
-
 .user-profile img {
     margin-right: 10px;
-    border-radius: 50%; /* rounded profile picture */
+    border-radius: 50%;
     width: 50px; 
     height: 50px;
 }
 
-/* for home.html */
+.profile-data {
+    margin: 10px 0;
+    text-align: left;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.top-songs {
+    color: white;
+    font-weight: 600;
+    list-style-type: None;
+}
+
+.song-item {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+}
+
+.track-cover {
+    height: 50px;
+    width: 50px;
+    margin-right: 10px; /* spacing between cover and text */
+}
+
+.song-txt {
+    display: inline-block;
+    margin: 0;
+    vertical-align: 25px;
+}
+
+/* home.html */
 .home-bio {
     background-color: rgba(0,0,0,.6);
     text-align: center;
@@ -135,7 +161,7 @@ nav ul li a {
 #loginButton {
     display: inline-block;
     padding: 10px 20px;
-    border-radius: 12px; /* changes the roundness */
+    border-radius: 12px; /* roundness */
     background-color: white; 
     color: rgb(15,15,15);
     text-align: center;
