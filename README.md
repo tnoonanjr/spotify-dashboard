@@ -16,9 +16,11 @@ Buttons and links are equipped with JavaScript event listeners that enhance inte
 **User Authentication**: The app uses Python and the Spotify API to handle authentication flows, including login and logout, allowing users to securely access their personal Spotify data.
 <br>
 ## Development
-Spotify Dashboard is powered by the Spotipy library for backend operations and Flask to render HTML and CSS. JavaScript functions play a crucial role in:
+Spotify Dashboard is powered by the Spotipy library for backend operations and Flask to render HTML and CSS. JavaScript functions reinforce the front end:
+- Parsing and rendering data from the Spotify API.
+- Juggling tabs for stats of users' short to long range listening habits.
+- Enhancing the user interface with interactive elements and real-time updates.
+- Managing the dynamic layout and responsive design of the web app.
 
-Fetching and rendering data from the Spotify API.
-Enhancing the user interface with interactive elements and real-time updates.
-Managing the dynamic layout and responsive design of the web app.
-Feel free to reach out if you have any questions or need assistance with the application!
+
+### Feel free to reach out if you have any questions!
