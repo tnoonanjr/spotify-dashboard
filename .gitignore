@@ -5,3 +5,7 @@ flask-server/static/fonts/Circular.ttf
 flask-server/test_main.py
 flask-server/app-spotify.code-workspace
 .cache
+
+test-main.py
+main.py
+flask-server/__pycache__
