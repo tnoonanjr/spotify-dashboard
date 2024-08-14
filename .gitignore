@@ -1,0 +1,7 @@
+write.txt
+flask-server/info_dump.py
+flask-server/static/favicon.ico
+flask-server/static/fonts/Circular.ttf
+flask-server/test_main.py
+flask-server/app-spotify.code-workspace
+.cache
