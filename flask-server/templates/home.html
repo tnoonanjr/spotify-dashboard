@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Home</title>
+</head>
+<body>
+
+    <div id="navbar-container"></div>
+    
+    <div class="home-bio">
+
+        <h1 class="welcome-h">Track your spotify footprint</h1>
+        <p class="bio">
+            Dashboard is a web app made using the Spotify API providng stats on your music profile! You can view your playlists and current top tracks. This web app was made with flask backend using python and html/css with jinja templating.
+        </p> <br>
+        
+        <p>
+            Log in with Spotify here to view your profile!
+        </p><br>
+
+        <div id="flash-container"></div>
+
+        <p id="about" class="bio">
+            
+        </p>
+
+    </div>
+    <div id="jsonData" style="display: none;" data-flash="{{flash}}" data-log="{{logged_in}}"></div>
+
+    <script src="/static/navFetch.js"></script>
+    <script src="/static/home.js"></script>    
+</body>
+</html>

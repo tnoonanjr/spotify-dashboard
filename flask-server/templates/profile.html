@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Profile</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+    <div id="navbar-container"></div>
+
+    <div class="user-profile">
+        <h1 id="dashLabel">User Dashboard</h1><br>
+        <div id="profile-wrapper">
+        <!-- user profile name and picture dynamically generated in the JS file -->
+        </div>
+    </div>
+
+    <div class="tabs">
+        <button class="tablinks" onclick="openTab(event, 'short-div')">4 weeks</button>
+        <button class="tablinks" onclick="openTab(event, 'med-div')">6 months</button>
+        <button class="tablinks" onclick="openTab(event, 'long-div')">all time</button>
+    </div>
+
+    <div class="profile-data">
+        <!-- only one displayed at a time -->
+
+        <div id="short-div" class="tab" style="display: block;">
+        
+            <!-- top tracks - 4 weeks dynamically generated in the js -->
+           
+            <!-- top artists - 4 weeks dynamically generated in the js -->
+            
+        </div>
+        
+        <div id="med-div" class="tab" style="display: none;">
+            
+            <!-- top tracks  - 6 months dynamically generated in the js -->
+            
+            <!-- top artists - 6 months dynamically generated in the js -->
+            
+        </div>
+        
+        <div id="long-div" class="tab" style="display: none;">
+            
+            <!-- top tracks - all time dynamically generated in the js -->
+            
+            <!-- top artists - all time dynamically generated in the js -->
+        </div>
+
+        
+    </div>
+
+    <ol id="queue-ol">
+        <!-- current user queue - dynamically generated in the js -->
+    </ol>
+
+    <div id="jsonData" style="display: none;">{{jsonData}}</div>
+    <script src="/static/profile.js"></script>
+    <script src="/static/navFetch.js"></script>
+    <script src="/static/home.js"></script>
+</body>
+</html>
