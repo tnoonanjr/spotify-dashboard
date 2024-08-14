@@ -6,3 +6,4 @@ flask-server/test_main.py
 flask-server/app-spotify.code-workspace
 .cache
 flask-server/__pycache__
+venv/
