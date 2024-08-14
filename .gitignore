@@ -5,10 +5,4 @@ flask-server/static/fonts/Circular.ttf
 flask-server/test_main.py
 flask-server/app-spotify.code-workspace
 .cache
-__pycache__
-app-spofify.code-workspace
-desktop.ini
-
-test-main.py
-main.py
 flask-server/__pycache__
