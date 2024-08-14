@@ -9,7 +9,7 @@ Real-time Track Updates: JavaScript functions periodically update the list of yo
 ### Enhanced User Experience
 **Responsive Layout**: JavaScript enables a responsive layout that adjusts to different screen sizes. Elements like playlists, top tracks, and artist profiles are rearranged automatically based on the device you’re using.
 <br>
-### Interactive Elements: 
+### Interactive Elements
 Buttons and links are equipped with JavaScript event listeners that enhance interaction, such as expanding details, switching between tabs, or filtering content without requiring a page reload.
 <br>
 ### Advanced Features
