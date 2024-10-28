@@ -6,7 +6,8 @@ const jsonDataElement = document.getElementById('jsonData');
 const jsonData = JSON.parse(jsonDataElement.textContent);
 const currUser = jsonData.profile.display_name
 
-function renderProfileInfo() {
+function renderProfileInfo() 
+{
     /**  Renders all information for a given user by parsing the jsonData **/
     var jsonDataElement = document.getElementById('jsonData');
     var jsonData = JSON.parse(jsonDataElement.textContent);
@@ -35,7 +36,8 @@ function renderProfileInfo() {
 
 renderProfileInfo()
 
-function openTab(evt, tabName) {
+function openTab(evt, tabName) 
+{
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tab");
     for (i = 0; i < tabcontent.length; i++) {
@@ -48,9 +50,8 @@ function openTab(evt, tabName) {
     }
 
     document.getElementById(tabName).style.display = "flex";
-    if (evt) {
-        evt.currentTarget.className += " active";
-    } 
+    if (evt) evt.currentTarget.className += " active";
+    
 
     var tracks, artists;
     switch (tabName) {
@@ -91,7 +92,8 @@ function openTab(evt, tabName) {
     
 }
 
-function renderTopTracks(tracks, containerId) {
+function renderTopTracks(tracks, containerId) 
+{
     /** 
      * Renders the user's top ten most listened tracks by looping 
      * over each track given by the jsonData 
@@ -164,7 +166,8 @@ function renderTopTracks(tracks, containerId) {
     container.appendChild(trackList);
 }
 
-function renderTopArtists(artists, containerId) {
+function renderTopArtists(artists, containerId) 
+{
     /**
      * Renders the user's top artists with a link to their profile page
      */
@@ -186,6 +189,7 @@ function renderTopArtists(artists, containerId) {
         // Artist name
         var artistAnchor = document.createElement('a');
         artistAnchor.classList.add('artist-txt');
+        artistAnchor.classList.add('profile-artist-txt');
         artistAnchor.href = '/artist/' + artist.id + '/profile';
         artistAnchor.textContent = artist.name;
         
@@ -197,12 +201,11 @@ function renderTopArtists(artists, containerId) {
     container.appendChild(artistList);
 }
 
-function renderQueue(queueData, containerId) {
+function renderQueue(queueData, containerId) 
+{
     /** 
      * Displays the user's current queue 
      */ 
-    console.log('rendering queue');
-    console.log(queueData);
     var container = document.getElementById(containerId)
     var queueList = document.getElementById('queue-ol');
     queueList.classList.add('top-tracks');
@@ -245,7 +248,8 @@ function renderQueue(queueData, containerId) {
         
         artistWrapper.classList.add('artist-wrapper');
 
-        track.artists.forEach((artist, index) => {
+        track.artists.forEach((artist, index) => 
+        {
             const artistAnchor = document.createElement('a');
             artistAnchor.classList.add('track-txt');
 
@@ -256,7 +260,8 @@ function renderQueue(queueData, containerId) {
             artistAnchor.textContent = artist;
 
             artistWrapper.appendChild(artistAnchor);
-            if (index < track.artists.length - 1) {
+            if (index < track.artists.length - 1) 
+            {
                 artistAnchor.innerHTML += ',&nbsp;';  // Comma separator
             }
         });
@@ -293,10 +298,12 @@ function renderQueue(queueData, containerId) {
     const currItem = createQueueItem(queueData.currently_playing);
     queueList.appendChild(currItem);
 
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 9; i++) 
+    {
         const track = queueData.queue[i];
         const queueItem = createQueueItem(track);
         queueList.appendChild(queueItem);
     }
+
     container.appendChild(queueList);
 }

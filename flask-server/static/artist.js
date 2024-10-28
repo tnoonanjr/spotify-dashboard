@@ -1,21 +1,18 @@
 // Parsing data
 var jsonDataElement = document.getElementById('jsonData');
 var jsonData = JSON.parse(jsonDataElement.textContent);
-console.log(jsonData);
 var suggestElement = jsonDataElement.getAttribute('data-suggest');
-console.log(suggestElement);
 var suggestData = JSON.parse(suggestElement);
 
-function renderArtistProfile(jsonData, suggestData) {
+function renderArtistProfile(jsonData, suggestData) 
+{
     /**
      * Renders a given artist's profile displaying their name,
      * popularity, similar artists, and more.
      */
-    console.log('Artist profile rendering...');
     var items = jsonData.artists.items;
     var artistData = items[0];
     const artistProfileContainer = document.getElementById('artist-profile');
-    console.log(artistData);
 
     // Image, name, followers sub-div
     const artistIdDiv = document.createElement('div');
@@ -59,7 +56,8 @@ function renderArtistProfile(jsonData, suggestData) {
     // Genres
     const genresContainer = document.createElement('div');
     genresContainer.id = 'genres-container';
-    artistData.genres.forEach(genre => {
+    artistData.genres.forEach(genre => 
+    {
         const artistGenre = document.createElement('p');
         artistGenre.textContent = genre;
         artistGenre.classList.add("artist-genre");
@@ -92,14 +90,14 @@ function renderArtistProfile(jsonData, suggestData) {
         // Track name
         const suggestTrackName = document.createElement('p');
         suggestTrackName.textContent = suggestion.track_name;
-        if (suggestTrackName.textContent.length > 32) {
-            suggestTrackName.textContent = suggestTrackName.textContent.substring(0, 32).trimEnd() + '...';
-        }
+        if (suggestTrackName.textContent.length > 32) suggestTrackName.textContent = suggestTrackName.textContent.substring(0, 32).trimEnd() + '...';
+        
         suggestTrackName.classList.add('top-songs', 'suggest-track-name');
         trackInfoDiv.appendChild(suggestTrackName);
 
         // Create artist anchor elements
-        suggestion.artists.forEach((artist, j) => {
+        suggestion.artists.forEach((artist, j) => 
+        {
             const suggestArtist = document.createElement('a');
             suggestArtist.textContent = artist + (j < suggestion.artists.length - 1 ? ', ' : '');
             suggestArtist.id = 'artist';

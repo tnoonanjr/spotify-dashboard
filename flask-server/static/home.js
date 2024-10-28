@@ -1,70 +1,59 @@
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('home.js linked');
+document.addEventListener('DOMContentLoaded', function() 
+{
 
-  function login() {
-      console.log('login function called');
-      window.location.href = "/login";
-  }
+function login() 
+{
+    window.location.href = "/login";
+}
 
-  function logout() {
-      console.log('logout function called');
-      window.location.href = "/logout";
-  }
+function logout() 
+{
+    window.location.href = "/logout";
+}
 
-  var jsonDataElement = document.getElementById('jsonData');
-  if (!jsonDataElement) {
-      console.error('jsonData element not found');
-      return;
-  }
+var jsonDataElement = document.getElementById('jsonData');
 
-  var flash = jsonDataElement.getAttribute('data-flash');
-  var loggedIn = jsonDataElement.getAttribute('data-log');
-  var flashUser = (flash === "True");
-  var loggedInJs = (loggedIn != "False");
+var flash = jsonDataElement.getAttribute('data-flash');
+var loggedIn = jsonDataElement.getAttribute('data-log');
+var flashUser = (flash === "True");
+var loggedInJs = (loggedIn != "False");
 
-  if (flashUser === true) {
-      displayFlashMessage();
-  }
+if (flashUser === true) displayFlashMessage();
 
-  function updateLoginLogoutButton() {
-      var container = document.getElementById('logLi');
-      if (!container) {
-          console.error('Container element not found');
-          return;
-      }
+function updateLoginLogoutButton() 
+{
+    var container = document.getElementById('logLi');
 
-      container.innerHTML = '';
+    container.innerHTML = '';
 
-      if (loggedInJs === false) {
-          console.log('user not logged in');
+    if (loggedInJs === false) 
+    {
+        var loginBtn = document.createElement('button');
+        loginBtn.id = "loginBtn";
+        loginBtn.className = "logBtn";
+        loginBtn.textContent = "Log in";
+        loginBtn.onclick = login;
 
-          var loginBtn = document.createElement('button');
-          loginBtn.id = "loginBtn";
-          loginBtn.className = "logBtn";
-          loginBtn.textContent = "Log in";
-          loginBtn.onclick = login;
+        container.appendChild(loginBtn);
+    } 
+    
+    else 
+    {
+        var logoutBtn = document.createElement('button');
+        logoutBtn.id = "logoutBtn";
+        logoutBtn.className = "logBtn";
+        logoutBtn.textContent = "Log out";
+        logoutBtn.onclick = logout;
 
-          container.appendChild(loginBtn);
-      } else {
-          var logoutBtn = document.createElement('button');
-          logoutBtn.id = "logoutBtn";
-          logoutBtn.className = "logBtn";
-          logoutBtn.textContent = "Log out";
-          logoutBtn.onclick = logout;
+        container.appendChild(logoutBtn);
+    }
+}
 
-          container.appendChild(logoutBtn);
-      }
-  }
+function displayFlashMessage() 
+{
+    const flashContainer = document.getElementById('flash-container');
+    flashContainer.innerHTML = "<em>You are not logged in. Please log in to access this page.</em>";  
+}
 
-  function displayFlashMessage() {
-      console.log('displayFlashMessage function called');
-      const flashContainer = document.getElementById('flash-container');
-      if (flashContainer) {
-          flashContainer.innerHTML = "<em>You are not logged in. Please log in to access this page.</em>";
-      } else {
-          console.error('flash-container not found');
-      }
-  }
-
-  document.addEventListener('navbarLoaded', updateLoginLogoutButton);
+document.addEventListener('navbarLoaded', updateLoginLogoutButton);
 });

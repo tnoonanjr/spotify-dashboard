@@ -4,7 +4,6 @@ import json
 from flask import Flask, redirect, render_template, request, session
 from datetime import datetime
 from constants import APP_SECRET, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, SCOPE 
-import pprint as pp
 
 app = Flask(__name__, static_url_path='/static', static_folder='static')
 app.secret_key = APP_SECRET
@@ -52,7 +51,6 @@ def login():
     the permissions listed in the SCOPE
 
     '''
-    pp.pprint('login method called')
     auth_url = sp_oauth.get_authorize_url()
     return redirect(auth_url)
 
@@ -80,7 +78,6 @@ def callback():
     back to the home page. 
 
     '''
-    pp.pprint('callback method called')
     code = request.args.get('code')
     token_info = sp_oauth.get_access_token(code)
     session['access_token'] = token_info
@@ -172,7 +169,6 @@ def profile():
     }
 
     jsonData = json.dumps(jsonDataDict)
-    pp.pprint(jsonData)
     return render_template("profile.html", jsonData=jsonData)
 
 def extract_track_info(track):
@@ -238,7 +234,6 @@ def artist_profile(artist_id:str):
     same genre as the artist 
 
     '''
-    pp.pprint(' artist profile called ')
     artist_info = sp.artist(artist_id)
     artist_data = {
         'artists': {

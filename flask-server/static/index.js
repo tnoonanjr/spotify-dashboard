@@ -1,14 +1,15 @@
 var jsonDataElement = document.getElementById('jsonData');
 var jsonData = JSON.parse(jsonDataElement.textContent);
-console.log(jsonData);
 
 // call the function to render playlist info
-jsonData.items.forEach(function(playlist) {
+jsonData.items.forEach(function(playlist) 
+{
     renderPlaylistInfo(playlist);
 });
 
 
-function renderPlaylistInfo(playlist) {
+function renderPlaylistInfo(playlist) 
+{
     /**
      * creates a div with each playlist given in the jsonData
      */
@@ -35,7 +36,8 @@ function renderPlaylistInfo(playlist) {
     playlistInfoDiv.appendChild(playlistNameStrong);
     playlistInfoDiv.appendChild(document.createElement('br'));
 
-    if (playlist.description) {
+    if (playlist.description) 
+    {
         var playlistDescriptionEm = document.createElement('em');
         playlistDescriptionEm.textContent = playlist.description;
         playlistInfoDiv.appendChild(playlistDescriptionEm);

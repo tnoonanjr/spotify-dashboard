@@ -1,28 +1,34 @@
 var jsonDataElement = document.getElementById("jsonData");
 var jsonData = JSON.parse(jsonDataElement.textContent);
-console.log(jsonData)
 
-function renderPlaylistTracks(tracks) {
-    // creates a list of all tracks in a given playlist
+function renderPlaylistTracks(tracks) 
+{
+    /**  Creates a list of all tracks in a given playlist */
     var container = document.getElementById("tracks-container");
-    var trackList = '';
-    trackList += '<ol class="track-list">'
+    const trackList = document.createElement("ol");
+    trackList.classList.add("track-list");
 
-    tracks.forEach(function (item) {
+    tracks.forEach(function (item) 
+    {
         var track = item.track;
         
-        trackList += '<li>';
-        trackList += '<strong>';
-        trackList += '<a class="track-link" href="' + track.external_urls.spotify + '" target="_blank">';
-        trackList += track.name;
-        trackList += '</a>';
-        trackList += '</strong> - ';
-        trackList += track.artists[0].name;
-        trackList += '</li>';
+        const trackLi = document.createElement("li");
+        const trackTxt = document.createElement("strong");
+
+        const trackLink = document.createElement("a");
+        trackLink.classList.add("track-link"); 
+        trackLink.href = track.external_urls.spotify;
+        trackLink.target = "_blank"
+        trackLink.textContent = `${track.name} - ${track.artists[0].name}`;
         
+        trackTxt.appendChild(trackLink);
+        trackLi.appendChild(trackTxt);
+
+        trackList.appendChild(trackLi);    
     });
-    trackList += '</ol>';
-    container.innerHTML += trackList
+    
+    
+    container.appendChild(trackList);
 }
 
 renderPlaylistTracks(jsonData.items);
