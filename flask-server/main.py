@@ -3,7 +3,6 @@ from spotipy.oauth2 import SpotifyOAuth
 import json
 from flask import Flask, redirect, render_template, request, session
 from datetime import datetime
-from constants import APP_SECRET, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, SCOPE 
 
 app = Flask(__name__, static_url_path='/static', static_folder='static')
 app.secret_key = APP_SECRET
