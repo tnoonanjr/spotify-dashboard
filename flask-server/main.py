@@ -8,13 +8,13 @@ import os
 APP_SECRET = os.environ.get('APP_SECRET')
 CLIENT_ID = os.environ.get('CLIENT_ID')
 CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
-REDIRECT_URI = os.environ.get('REDIRECT_URI')
+REDIRECT_URL = os.environ.get('REDIRECT_URL')
 SCOPE = os.environ.get('SCOPE')
 
 app = Flask(__name__, static_url_path='/static', static_folder='static')
 app.secret_key = APP_SECRET
 
-sp_oauth = SpotifyOAuth(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri=REDIRECT_URI, scope=SCOPE, show_dialog=True) # show dialog ensures the user will see the spotify login screen
+sp_oauth = SpotifyOAuth(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri=REDIRECT_URL, scope=SCOPE, show_dialog=True) # show dialog ensures the user will see the spotify login screen
 sp = spotipy.Spotify(auth_manager=sp_oauth)
 
 def logged_in() -> bool:
