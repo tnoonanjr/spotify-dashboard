@@ -1,7 +1,7 @@
 /* fonts */
 @font-face {
     font-family: 'circ';
-    src: url('fonts/Circular.ttf') format('truetype'),
+    src: url('../fonts/Circular.ttf') format('truetype'),
 }
 
 /* defaults */
