@@ -264,5 +264,4 @@ def artist_profile(artist_id:str):
     return render_template('artist.html', jsonData=jsonData, suggest=suggestion)
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000)) 
-    app.run(host='0.0.0.0', port=port)
+    app.run(debug=True)
